@@ -1,0 +1,14 @@
+setup.cfg
+setup.py
+
+gender_detect\__init__.py
+gender_detect\gender_detect.py
+gender_detect\process_source_files.py
+gender_detect\assets\processed\uk_plus_all_time.csv
+gender_detect\assets\processed\uk_plus_normal_lowerdepun.csv.csv
+gender_detect\assets\processed\uk_plus_normal_lowerdepun_calc.csv
+gender_detect\assets\processed\uk_plus_all_time.csv
+gender_detect\assets\processed\us_all_time.csv
+gender_detect\assets\processed\s_all_time.csv
+gender_detect\assets\processed\ni_all_time.csv
+gender_detect\assets\processed\ew_all_time.csv
