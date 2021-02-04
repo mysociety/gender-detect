@@ -33,7 +33,12 @@ df["gender"] = gd.process_series(df["name"])
 * https://www.nrscotland.gov.uk/statistics-and-data/statistics/statistics-by-theme/vital-events/names/babies-first-names
 * https://www.ssa.gov/oact/babynames/limits.html
 
+## Licencing
+
 * Data from the Social Security Administration is released under the public domain
 * Data from the UK Office of National Statistics is released under the Open Government License
 * Data from the Northern Ireland Statistics and Research Agency is licensed under the Open Government License
 * Data from the Scotland General Register Office is licensed under the Open Government License
+
+Unless otherwise stated, datasets are licensed under a [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/).
+Software is licenced under a GNU Affero General Public License. 
