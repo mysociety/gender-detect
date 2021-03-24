@@ -4,7 +4,7 @@ A python package to extract likely gender from name.
 
 This is an adaption of the approach from https://github.com/OpenGenderTracking/globalnamedata, and so is a spiritual sequel to https://github.com/malev/gender-detector.
 
-This package is designed to work with pandas to a series, and so has greater optimisation of the individual lookup stage than alternative packages. 
+This package is designed to work with pandas and convert a series. The `gender-detector` package will be faster from start-up to retrieve an individual name, but this will be much faster over a large set of names.  
 
 The underlying datasets have been reprocessed and updated up to versions avaliable in 2019.  The default dataset used is 'uk_plus', which is a combination of UK datasets, using US data to fill in additional names without adjusting gender balances where already present. Alternative options are: `us`, `ni`, `ew`, `s`. 
 
