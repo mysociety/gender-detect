@@ -1,0 +1,12 @@
+.git
+.github
+.venv
+.pytest_cache
+.ruff_cache
+__pycache__
+data/raw
+data/processed
+dist
+*.py[cod]
+*.pickle
+
