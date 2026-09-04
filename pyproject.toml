@@ -1,0 +1,64 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "mysoc-gender-detect"
+version = "0.2.0"
+description = "Infer binary gender classifications associated with first names from published birth statistics"
+readme = "README.md"
+requires-python = ">=3.10,<3.15"
+license = { file = "LICENSE.md" }
+authors = [{ name = "Alex Parsons", email = "alex@alexparsons.co.uk" }]
+dependencies = [
+  "numpy>=1.24,<3",
+  "pandas>=2.0,<4",
+  "pyarrow>=14,<26",
+  "typer>=0.12,<1",
+]
+classifiers = [
+  "License :: OSI Approved :: GNU Affero General Public License v3",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+]
+
+[project.urls]
+Homepage = "https://github.com/mysociety/gender-detect"
+
+[project.scripts]
+mysoc-gender-detect = "mysoc_gender_detect.__main__:app"
+
+[dependency-groups]
+dev = [
+  "build>=1.2",
+  "hatchling>=1.27",
+  "openpyxl>=3.1",
+  "pyright>=1.1.390",
+  "pytest>=8",
+  "ruff>=0.9",
+  "xlrd>=2.0",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/mysoc_gender_detect"]
+artifacts = ["src/mysoc_gender_detect/data/*.parquet", "src/mysoc_gender_detect/data/manifest.json", "src/mysoc_gender_detect/py.typed"]
+
+[tool.hatch.build.targets.sdist]
+include = ["src", "tests", "tools", "README.md", "LICENSE.md", "CHANGELOG.md", "pyproject.toml", "uv.lock", ".template-source"]
+
+[tool.pytest.ini_options]
+addopts = "-ra"
+pythonpath = ["."]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "RUF"]
+
+[tool.pyright]
+include = ["src", "tools", "tests"]
+pythonVersion = "3.10"
+typeCheckingMode = "standard"

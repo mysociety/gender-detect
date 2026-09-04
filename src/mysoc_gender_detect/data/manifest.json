@@ -1,0 +1,61 @@
+{
+  "datasets": {
+    "ew": {
+      "file": "ew.parquet",
+      "rows": 34314,
+      "sha256": "15bda5e17e135197368d185d756758f3e037f0dfce51f0e7c57cd9fb127f28b2"
+    },
+    "ni": {
+      "file": "ni.parquet",
+      "rows": 19954,
+      "sha256": "51e2b700dfaaf8df2e81d7343866aed2e475f4707c932a6ab94501e7d690ee4c"
+    },
+    "s": {
+      "file": "s.parquet",
+      "rows": 63786,
+      "sha256": "1fef5ac662b292b221c7d101aa37afe12f562424351d49e71c960fba52a0c7f6"
+    },
+    "uk": {
+      "file": "uk.parquet",
+      "rows": 82340,
+      "sha256": "61263d77ef039e1af8b176c0240d68064bc031d3b791982a431beb7e7ddca4cc"
+    },
+    "uk_plus": {
+      "file": "uk_plus.parquet",
+      "rows": 142741,
+      "sha256": "fd29e6cae88dcf6fee65eb26e61332948534243f5cd67c392cc0e4ea22806029"
+    },
+    "us": {
+      "file": "us.parquet",
+      "rows": 93393,
+      "sha256": "2c9cb81a17496df3b400516b1588c55c5fa0fb89010dc293353a31162c9e7777"
+    }
+  },
+  "generation_command": "python tools/build_datasets.py",
+  "normalization": "lowercase; remove characters matching [^\\w\\s]",
+  "schema_version": 1,
+  "sources": {
+    "ew": {
+      "coverage": "1996-2019",
+      "publisher": "ONS"
+    },
+    "ni": {
+      "coverage": "1997-2016",
+      "publisher": "NISRA"
+    },
+    "s": {
+      "coverage": "1974-2019",
+      "publisher": "NRS"
+    },
+    "uk": {
+      "coverage": "combined published UK sources"
+    },
+    "uk_plus": {
+      "coverage": "UK with missing names filled from US"
+    },
+    "us": {
+      "coverage": "1950-2019",
+      "publisher": "US SSA"
+    }
+  }
+}
