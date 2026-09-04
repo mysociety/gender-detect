@@ -1,0 +1,19 @@
+{
+  "name": "gender-detect",
+  "build": {
+    "dockerfile": "../Dockerfile"
+  },
+  "postCreateCommand": ".devcontainer/postCreateCommand",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "tamasfe.even-better-toml",
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-azuretools.vscode-docker",
+        "mhutchie.git-graph",
+        "charliermarsh.ruff"
+      ]
+    }
+  }
+}

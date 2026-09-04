@@ -1,0 +1,94 @@
+# Rename this file to auto_publish.yml to enable automatic publishing.
+name: Publish package automatically
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+    inputs:
+      repository:
+        description: Override the automatic target
+        required: true
+        type: choice
+        default: automatic
+        options: [automatic, testpypi, pypi]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ inputs.repository || 'automatic' }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    uses: ./.github/workflows/ci.yml
+
+  release-status:
+    needs: test
+    runs-on: ubuntu-latest
+    outputs:
+      publish: ${{ steps.status.outputs.publish }}
+      tags: ${{ steps.status.outputs.tags }}
+      version: ${{ steps.status.outputs.version }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Compare local and published versions
+        id: status
+        env:
+          FORCED_REPOSITORY: ${{ inputs.repository || 'automatic' }}
+          PACKAGE_NAME: mysoc-gender-detect
+        run: |
+          current_version=$(python -c "import tomllib; print(tomllib.load(open('pyproject.toml', 'rb'))['project']['version'])")
+          remote_version=$(curl --fail --silent "https://pypi.org/pypi/${PACKAGE_NAME}/json" |
+            python -c "import json, sys; print(json.load(sys.stdin)['info']['version'])" || true)
+
+          if [ "${FORCED_REPOSITORY}" != "automatic" ] || [ "${current_version}" != "${remote_version}" ]; then
+            echo "publish=true" >> "${GITHUB_OUTPUT}"
+          else
+            echo "publish=false" >> "${GITHUB_OUTPUT}"
+          fi
+          echo "version=${current_version}" >> "${GITHUB_OUTPUT}"
+          echo "tags=v${current_version} ${current_version}" >> "${GITHUB_OUTPUT}"
+
+  publish:
+    needs: release-status
+    if: needs.release-status.outputs.publish == 'true'
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.repository == 'testpypi' && 'testpypi' || 'pypi' }}
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: true
+      - name: Install uv
+        uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
+        with:
+          version: "0.12.9"
+      - name: Build distributions
+        run: uv build
+      - name: Publish to TestPyPI
+        if: inputs.repository == 'testpypi'
+        run: >-
+          uv publish
+          --publish-url https://test.pypi.org/legacy/
+          --trusted-publishing always
+      - name: Publish to PyPI
+        if: inputs.repository != 'testpypi'
+        run: uv publish --trusted-publishing always
+      - name: Tag the release
+        env:
+          TAGS: ${{ needs.release-status.outputs.tags }}
+          VERSION: ${{ needs.release-status.outputs.version }}
+        run: |
+          git config user.email "action@github.com"
+          git config user.name "GitHub Actions"
+          for tag in ${TAGS}; do
+            git tag --annotate --message "Release ${VERSION}" "${tag}"
+          done
+          git tag --force --annotate --message "Latest release" latest
+          git push --tags --force
