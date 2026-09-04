@@ -101,8 +101,14 @@ def convert(
         raise typer.BadParameter(
             f"Input has no column named {name_column!r}", param_hint="--name-column"
         )
+    names = frame[name_column]
+    if isinstance(names, pd.DataFrame):
+        raise typer.BadParameter(
+            f"Input has multiple columns named {name_column!r}",
+            param_hint="--name-column",
+        )
     detector = create_detector(country, threshold, lower_threshold)
-    frame[output_column] = detector.process_series(frame[name_column])
+    frame[output_column] = detector.process_series(names)
     write_frame(frame, output_path)
     typer.echo(f"Wrote {len(frame):,} rows to {output_path}")
 
