@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import json
-from enum import Enum
+from enum import StrEnum
 from importlib.resources import files
 
 import pandas as pd
@@ -11,7 +11,7 @@ import pandas as pd
 REQUIRED_COLUMNS = ("name", "predicted", "winner_proportion", "lower")
 
 
-class DatasetId(str, Enum):
+class DatasetId(StrEnum):
     """Supported packaged datasets."""
 
     ew = "ew"

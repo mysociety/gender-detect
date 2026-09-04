@@ -7,7 +7,7 @@ name = "mysoc-gender-detect"
 version = "0.2.0"
 description = "Infer binary gender classifications associated with first names from published birth statistics"
 readme = "README.md"
-requires-python = ">=3.10,<3.15"
+requires-python = ">=3.11,<3.15"
 license = { file = "LICENSE.md" }
 authors = [{ name = "Alex Parsons", email = "alex@alexparsons.co.uk" }]
 dependencies = [
@@ -53,12 +53,12 @@ testpaths = ["tests"]
 
 [tool.ruff]
 line-length = 88
-target-version = "py310"
+target-version = "py311"
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B", "SIM", "RUF"]
 
 [tool.pyright]
 include = ["src", "tools", "tests"]
-pythonVersion = "3.10"
+pythonVersion = "3.11"
 typeCheckingMode = "standard"
