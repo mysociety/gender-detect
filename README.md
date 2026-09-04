@@ -18,7 +18,7 @@ The thresholds for allowing a gender guess with less than unanimity are adjustab
 pip install mysoc-gender-detect
 ```
 
-Gender Detect supports Python 3.10 through 3.14.
+Gender Detect supports Python 3.11 through 3.14.
 
 ```python
 import pandas as pd
